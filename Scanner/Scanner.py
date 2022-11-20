@@ -19,7 +19,7 @@ class Scanner:
         return token in ['>', '<', '=', '!']
 
     def is_reserved_token(self, token):
-        return token in self._reserved_words or token in self._operators or token in self._separators
+        return token in self._reserved_tokens
 
     def is_nr_const(self, token):
         result = INT_CONSTANT_REGEX.search(token)
@@ -70,7 +70,7 @@ class Scanner:
                         position = symbol_table.add(token)
                         program_internal_form.add(token, position)
                     else:
-                        raise ValueError('Lexical error on token ' + token + ' at line: ' + str(line_count))
+                        raise ValueError('Lexical error on token ' + token + ' at line: ' + str(line_count) + ' column: ' + str(i))
                 else:
                     omit_next = False
 
@@ -81,32 +81,3 @@ class Scanner:
             file.write(str(program_internal_form))
 
         return symbol_table, program_internal_form, "Lexically correct"
-
-    def scan(self, file_name):
-        symbol_table = SymbolTable()
-        program_internal_form = PIF()
-
-        # open file and read all lines
-        program_file = open(file_name, 'r')
-        lines = program_file.read()
-
-        # get all word from file
-        line_data = re.split('("[^a-zA-Z0-9]")|([^a-zA-Z0-9])', lines)
-
-        # filter words and eliminate spaces
-        line_data = list(filter(None, line_data))
-        line_data = map(lambda e: e.strip(), line_data)
-        line_data = list(filter(None, line_data))
-
-        print(list(line_data))
-
-        for token in line_data:
-            if self.is_reserved_token(token):
-                program_internal_form.add(token, 0)
-            elif self.is_nr_const(token) or self.is_identifier_const(token):
-                position = symbol_table.add(token)
-                program_internal_form.add(token, position)
-            else:
-                raise ValueError('Lexical error on token ' + token)
-
-        return symbol_table, program_internal_form
