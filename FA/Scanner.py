@@ -1,9 +1,9 @@
 import re
 
-from SymbolTable import SymbolTable
-from ProgramInternalForm import PIF
-from FiniteAutomata import FiniteAutomata
-from utils.regex import STRING_CONSTANT_REGEX
+from FA.SymbolTable import SymbolTable
+from FA.ProgramInternalForm import PIF
+from FA.FiniteAutomata import FiniteAutomata
+from FA.utils.regex import STRING_CONSTANT_REGEX
 
 
 class Scanner:
@@ -12,8 +12,6 @@ class Scanner:
         self._separators = ['[', ']', '{', '}', ';', ':', '(', ')', '\'', '\"']
         self._reserved_words = ['start', 'finish', 'def', 'int', 'char', 'string', 'log', 'read', 'if', 'then', 'else',
                                 'while', 'execute', 'break', 'exit']
-        # self._reserved_tokens = get_tokens("/Users/anamaria/Documents/Semester5/LFTC/mini-language-compiler"
-        #                                    "/inputFiles/token.in")
 
     def needs_look_ahead(self, token):
         return token in ['>', '<', '=', '!']
@@ -22,8 +20,7 @@ class Scanner:
         return token in self._reserved_words or token in self._operators or token in self._separators
 
     def is_nr_const(self, token):
-        integer_finite_automaton = FiniteAutomata('/Users/anamaria/Documents/Semester5/LFTC/mini-language-compiler'
-                                                     '/inputFiles/fa/integer.in')
+        integer_finite_automaton = FiniteAutomata('/Users/ioana/OneDrive/Desktop/FLCD-Laboratory-Work/FA/inputFiles/integer.in')
 
         return integer_finite_automaton.is_accepted(token)
 
@@ -34,8 +31,7 @@ class Scanner:
 
 
     def is_identifier_const(self, token):
-        identifier_finite_automaton = FiniteAutomata('/Users/anamaria/Documents/Semester5/LFTC/mini-language-compiler'
-                                                     '/inputFiles/fa/identifier.in')
+        identifier_finite_automaton = FiniteAutomata('Users/ioana/OneDrive/Desktop/FLCD-Laboratory-Work/FA/inputFiles/identifier.in')
 
         return identifier_finite_automaton.is_accepted(token)
 
@@ -81,10 +77,10 @@ class Scanner:
                 else:
                     omit_next = False
 
-        with open("/Users/anamaria/Documents/Semester5/LFTC/mini-language-compiler/outputFiles/ST.out", 'w') as file:
+        with open("/Users/ioana/OneDrive/Desktop/FLCD-Laboratory-Work/FA/outputFiles/ST.out", 'w') as file:
             file.write(str(symbol_table))
 
-        with open("/Users/anamaria/Documents/Semester5/LFTC/mini-language-compiler/outputFiles/PIF.out", 'w') as file:
+        with open("/Users/ioana/OneDrive/Desktop/FLCD-Laboratory-Work/FA/outputFiles/PIF.out", 'w') as file:
             file.write(str(program_internal_form))
 
         return symbol_table, program_internal_form, "Lexically correct"
