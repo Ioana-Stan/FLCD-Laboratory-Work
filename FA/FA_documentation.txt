@@ -1,0 +1,19 @@
+BNF form of the input file (FA.in):
+<input-file> ::= "#states" <states> "#alpha" <alpha> "#initial" <initial> "#final" <final> "#transitions" <transitions>
+
+<states> ::= <state-identifier> | <state-identifier> ", " <states>
+<state-identifier> ::= <lower-case-letter> | <lower-case-letter>{lower-case-letter}
+<lower-case-letter> ::= "a" | "b" | ... | "z"
+
+<alpha> ::= SYMBOLS
+SYMBOLS ::= set of all symbols used as input
+
+<initial> ::= <states>
+
+
+<final> ::= <states>
+
+
+<transitions> ::= <state-identifier> ", " <alpha> ", " <state-identifier>
+
+
